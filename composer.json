@@ -1,0 +1,39 @@
+{
+  "name": "hansalscripts/laravel-payments",
+  "license": "MIT",
+  "description": "Payment helper for Paypal, Paymob, Kashier, Hyperpay and Fawry",
+  "keywords": [
+    "online payments",
+    "paypal",
+    "paymob",
+    "kashier",
+    "hyperpay",
+    "fawry"
+  ],
+  "autoload": {
+    "psr-4": {
+      "HansalScripts\\Payments\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^8.3",
+    "laravel/framework": "^11.28",
+    "paypal/paypalhttp": "1.0.1"
+  },
+  "authors": [
+    {
+      "name": "cancoda.com",
+      "email": "support@cancoda.com"
+    }
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [
+        "HansalScripts\\Payments\\PaymentsServiceProvider"
+      ],
+      "aliases": {
+        "HansalScriptsPayments": "HansalScripts\\Payments\\Facades"
+      }
+    }
+  }
+}
