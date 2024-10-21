@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 
 use HansalScripts\Payments\Interfaces\PaymentInterface;
 use HansalScripts\Payments\Classes\BaseController;
-
-
+use Illuminate\Support\Facades\Http;
 
 class BinancePayment extends BaseController implements PaymentInterface 
 {
@@ -80,13 +79,15 @@ class BinancePayment extends BaseController implements PaymentInterface
         $binance_pay_key = $this->binance_api;
         $binance_pay_secret = $this->binance_secret;
         $signature = strtoupper(hash_hmac('SHA512',$payload,$binance_pay_secret));
-        $response = \Http::withHeaders([
+        $response = Http::withHeaders([
             "Content-Type"=>"application/json",
             "BinancePay-Timestamp"=>$timestamp,
             "BinancePay-Nonce"=>$nonce,
             "BinancePay-Certificate-SN"=>$binance_pay_key,
             "BinancePay-Signature"=>$signature,
-        ])->post('https://bpay.binanceapi.com/binancepay/openapi/v3/order',$data)->json();
+        ])
+        ->withoutVerifying()
+        ->post('https://bpay.binanceapi.com/binancepay/openapi/v3/order',$data)->json();
 
 
         if($response['status']== "SUCCESS")

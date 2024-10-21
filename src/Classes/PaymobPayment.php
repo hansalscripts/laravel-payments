@@ -41,11 +41,13 @@ class PaymobPayment extends BaseController implements PaymentInterface
         $this->checkRequiredFields($required_fields, 'PayMob');
 
         $request_new_token = Http::withHeaders(['content-type' => 'application/json'])
+            ->withoutVerifying()
             ->post('https://accept.paymobsolutions.com/api/auth/tokens', [
                 "api_key" => $this->paymob_api_key
             ])->json();
 
         $get_order = Http::withHeaders(['content-type' => 'application/json'])
+            ->withoutVerifying()
             ->post('https://accept.paymobsolutions.com/api/ecommerce/orders', [
                 "auth_token" => $request_new_token['token'],
                 "delivery_needed" => "false",
@@ -54,6 +56,7 @@ class PaymobPayment extends BaseController implements PaymentInterface
             ])->json();
 
         $get_url_token = Http::withHeaders(['content-type' => 'application/json'])
+            ->withoutVerifying()
             ->post('https://accept.paymobsolutions.com/api/acceptance/payment_keys', [
                 "auth_token" => $request_new_token['token'],
                 "expiration" => 36000,
@@ -140,10 +143,12 @@ class PaymobPayment extends BaseController implements PaymentInterface
     public function refund($transaction_id,$amount): array
     {
         $request_new_token = Http::withHeaders(['content-type' => 'application/json'])
+            ->withoutVerifying()
             ->post('https://accept.paymobsolutions.com/api/auth/tokens', [
                 "api_key" => $this->paymob_api_key
             ])->json();
         $refund_process = Http::withHeaders(['content-type' => 'application/json'])
+            ->withoutVerifying()
             ->post('https://accept.paymob.com/api/acceptance/void_refund/refund',['auth_token'=>$request_new_token['token'],'transaction_id'=>$transaction_id,'amount_cents'=>$amount])->json();
 
         dd($refund_process);

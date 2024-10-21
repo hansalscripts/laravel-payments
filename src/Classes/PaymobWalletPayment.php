@@ -19,7 +19,7 @@ class PaymobWalletPayment extends BaseController implements PaymentInterface
         $this->currency = config("laravel-payments.PAYMOB_CURRENCY");
         $this->paymob_wallet_integration_id = config("laravel-payments.PAYMOB_WALLET_INTEGRATION_ID");
     }
-
+ 
     /**
      * @param $amount
      * @param null $user_id
@@ -38,11 +38,21 @@ class PaymobWalletPayment extends BaseController implements PaymentInterface
         $this->checkRequiredFields($required_fields, 'PayMob');
 
         $request_new_token = Http::withHeaders(['content-type' => 'application/json'])
+            ->withoutVerifying()
             ->post('https://accept.paymobsolutions.com/api/auth/tokens', [
                 "api_key" => $this->paymob_api_key
             ])->json();
 
+        if(!isset($request_new_token['token'])){
+            return [
+                'payment_id'=>"",
+                'html' => "Fails authentication",
+                'redirect_url'=>""
+            ];
+        }
+
         $get_order = Http::withHeaders(['content-type' => 'application/json'])
+            ->withoutVerifying()
             ->post('https://accept.paymobsolutions.com/api/ecommerce/orders', [
                 "auth_token" => $request_new_token['token'],
                 "delivery_needed" => "false",
@@ -50,6 +60,7 @@ class PaymobWalletPayment extends BaseController implements PaymentInterface
                 "items" => []
             ])->json();
         $get_url_token = Http::withHeaders(['content-type' => 'application/json'])
+            ->withoutVerifying()
             ->post('https://accept.paymobsolutions.com/api/acceptance/payment_keys', [
                 "auth_token" => $request_new_token['token'],
                 "expiration" => 36000,

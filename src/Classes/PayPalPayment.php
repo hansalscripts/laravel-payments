@@ -9,11 +9,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\Foundation\Application;
 use HansalScripts\Payments\Classes\BaseController;
 use HansalScripts\Payments\Interfaces\PaymentInterface;
-use HansalScripts\Libraries\Paypal\Core\PayPalHttpClient;
-use HansalScripts\Libraries\Paypal\Core\SandboxEnvironment;
-use HansalScripts\Libraries\Paypal\Core\ProductionEnvironment;
-use HansalScripts\Libraries\Paypal\Orders\OrdersCreateRequest;
-use HansalScripts\Libraries\Paypal\Orders\OrdersCaptureRequest;
+use HansalScripts\Payments\Libraries\Paypal\Core\PayPalHttpClient;
+use HansalScripts\Payments\Libraries\Paypal\Core\SandboxEnvironment;
+use HansalScripts\Payments\Libraries\Paypal\Core\ProductionEnvironment;
+use HansalScripts\Payments\Libraries\Paypal\Orders\OrdersCreateRequest;
+use HansalScripts\Payments\Libraries\Paypal\Orders\OrdersCaptureRequest;
 
 class PayPalPayment extends BaseController implements PaymentInterface
 {

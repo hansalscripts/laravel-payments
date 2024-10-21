@@ -1,6 +1,6 @@
 <?php
 
-namespace HansalScripts\Libraries\Paypal\Core;
+namespace HansalScripts\Payments\Libraries\Paypal\Core;
 
 class Version
 {
